@@ -67,7 +67,6 @@ func _on_beat():
 		$MusicPlayer.play()
 		# track looping
 		if BEAT == 32: BEAT = 0
-<<<<<<< Updated upstream
 	if track_actions.get(BEAT) == "swap":
 		if $backdropIndoor.visible:
 			$backdropTower.visible = true
@@ -75,10 +74,7 @@ func _on_beat():
 		else:
 			$backdropTower.visible = false
 			$backdropIndoor.visible = true
-
-=======
-		
->>>>>>> Stashed changes
+	
 func handle_input():
 	if Input.is_action_just_pressed("Left Hammer"):
 		$HammerSounds.pitch_scale = 0.8 + randf()/20

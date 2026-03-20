@@ -1,17 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://d3akf5ww3s61r"]
+[gd_scene format=3 uid="uid://d3akf5ww3s61r"]
 
 [ext_resource type="Script" uid="uid://cm7flu224p5em" path="res://Scenes/main.gd" id="1_jjgbg"]
-[ext_resource type="Texture2D" uid="uid://bxs8xbawvarh8" path="res://Assets/sprites/4-gear.png" id="2_kry3j"]
-[ext_resource type="Texture2D" uid="uid://dunlnoshu8lfn" path="res://Assets/sketches/indoor-bg.png" id="3_6bp64"]
-[ext_resource type="AudioStream" uid="uid://b6jvqaymoub72" path="res://Assets/music/start-loop-placeholder.wav" id="3_jjvhh"]
-[ext_resource type="AudioStream" uid="uid://cvyf4q562k5r3" path="res://Assets/sounds/swing-small.wav" id="3_kry3j"]
-[ext_resource type="Texture2D" uid="uid://rnggkirei7ud" path="res://Assets/sketches/8-spur.png" id="4_21xkr"]
-[ext_resource type="Texture2D" uid="uid://cif6ien0sucni" path="res://Assets/sprites/tower-mockup.png" id="5_kry3j"]
+[ext_resource type="Texture2D" uid="uid://dns8e7dauy80t" path="res://Assets/sprites/4-gear.png" id="2_kry3j"]
+[ext_resource type="Texture2D" uid="uid://b6u1dn4nhddbe" path="res://Assets/sketches/indoor-bg.png" id="3_6bp64"]
+[ext_resource type="AudioStream" uid="uid://4vnycb07hyy2" path="res://Assets/music/start-loop-placeholder.wav" id="3_jjvhh"]
+[ext_resource type="AudioStream" uid="uid://ufid7k41nege" path="res://Assets/sounds/swing-small.wav" id="3_kry3j"]
+[ext_resource type="Texture2D" uid="uid://b17626qom45nt" path="res://Assets/sketches/8-spur.png" id="4_21xkr"]
+[ext_resource type="Texture2D" uid="uid://dkkh3308lx61h" path="res://Assets/sprites/tower-mockup.png" id="5_kry3j"]
 
 [node name="main" type="Node2D" unique_id=2051968484]
 script = ExtResource("1_jjgbg")
 
-[node name="backdropTower" type="Sprite2D" parent="."]
+[node name="backdropTower" type="Sprite2D" parent="." unique_id=1933957411]
 position = Vector2(576, 324)
 texture = ExtResource("5_kry3j")
 
@@ -19,22 +19,22 @@ texture = ExtResource("5_kry3j")
 position = Vector2(576, 324)
 texture = ExtResource("3_6bp64")
 
-[node name="gear4" type="Sprite2D" parent="backdropIndoor"]
+[node name="gear4" type="Sprite2D" parent="backdropIndoor" unique_id=1298726844]
 position = Vector2(-430, 169)
 texture = ExtResource("2_kry3j")
 
-[node name="gear4_2" type="Sprite2D" parent="backdropIndoor"]
+[node name="gear4_2" type="Sprite2D" parent="backdropIndoor" unique_id=1161104196]
 position = Vector2(-260, -6)
 rotation = 0.7853982
 texture = ExtResource("2_kry3j")
 
-[node name="spur8" type="Sprite2D" parent="backdropIndoor"]
+[node name="spur8" type="Sprite2D" parent="backdropIndoor" unique_id=793438072]
 position = Vector2(130.00003, -109)
 rotation = 0.7853982
 scale = Vector2(1.5327973, 1.7019266)
 texture = ExtResource("4_21xkr")
 
-[node name="spur8_2" type="Sprite2D" parent="backdropIndoor"]
+[node name="spur8_2" type="Sprite2D" parent="backdropIndoor" unique_id=781455524]
 position = Vector2(370, 234.99997)
 scale = Vector2(1.5327973, 1.7019266)
 texture = ExtResource("4_21xkr")
