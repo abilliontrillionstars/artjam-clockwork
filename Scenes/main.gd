@@ -15,9 +15,15 @@ var track_actions: Dictionary[int, String] = {
 	17 : "left",
 	18 : "right",
 	
+	20 : "swap",
+	23 : "swap",
+	
 	24 : "right",
 	25 : "left",
-	26 : "right"
+	26 : "right",
+	
+	28 : "swap",
+	31 : "swap",
 }
 
 # Dictionary mapping closeness thresholds
@@ -41,6 +47,11 @@ func _process(delta: float) -> void:
 	song_position = BEAT + (time_since_beat / seconds_per_beat)
 	
 	handle_input()
+	
+	$backdropIndoor/gear4.rotate(delta*2)
+	$backdropIndoor/gear4_2.rotate(delta*-2)
+	$backdropIndoor/spur8.rotate(delta*1.5)
+	$backdropIndoor/spur8_2.rotate(delta*-1.5)
 
 func _on_beat():
 	BEAT += 1
@@ -55,6 +66,13 @@ func _on_beat():
 		$MusicPlayer.play()
 		# track looping
 		if BEAT == 32: BEAT = 0
+	if track_actions.get(BEAT) == "swap":
+		if $backdropIndoor.visible:
+			$backdropTower.visible = true
+			$backdropIndoor.visible = false
+		else:
+			$backdropTower.visible = false
+			$backdropIndoor.visible = true
 
 func handle_input():
 	if Input.is_action_just_pressed("Left Hammer"):
