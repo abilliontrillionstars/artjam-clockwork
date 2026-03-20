@@ -39,10 +39,10 @@ func _ready() -> void:
 	timer.start(1.0/(BPM/60.0))
 	timer.timeout.connect(_on_beat)
 		
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	elapsed += delta
 	
+	 # Calculate the elapsed beat time and beat position in song
 	var seconds_per_beat = 60.0 / BPM
 	var time_since_beat = elapsed - last_beat
 	song_position = BEAT + (time_since_beat / seconds_per_beat)
@@ -53,6 +53,9 @@ func _process(delta: float) -> void:
 	$backdropIndoor/gear4_2.rotate(delta*-2)
 	$backdropIndoor/spur8.rotate(delta*1.5)
 	$backdropIndoor/spur8_2.rotate(delta*-1.5)
+	
+	if Input.is_action_just_pressed("mouse_click"):
+		print(get_global_mouse_position())
 
 func _on_beat():
 	BEAT += 1
@@ -79,13 +82,13 @@ func handle_input():
 	if Input.is_action_just_pressed("Left Hammer"):
 		$HammerSounds.pitch_scale = 0.8 + randf()/20
 		$HammerSounds.play(0.28)
-		print("Song Position (in beats): ", song_position)
+		print("Song Position (in beats): ", snappedf(song_position, 0.001))
 		check_hit("left")
 			
 	if Input.is_action_just_pressed("Right Hammer"):
 		$HammerSounds.pitch_scale = 1.2 + randf()/20
 		$HammerSounds.play(0.28)
-		print("Song Position (in beats): ", song_position)
+		print("Song Position (in beats): ", snappedf(song_position, 0.001))
 		check_hit("right")
 			
 # Calculate how close player is to the beat
@@ -120,7 +123,7 @@ func check_hit(side):
 			return
 		var closeness = abs(song_position - next_beat)
 		if closeness <= closeness_threshold["OK"]:
-			score_hit(closeness, side, next_beat)
+			score_hit(snappedf(closeness, 0.001), side, next_beat)
 			hit = true
 	
 	# No note nearby
@@ -134,14 +137,17 @@ func score_hit(closeness, side, beat_hit):
 	
 	if closeness <= closeness_threshold["Perfect"]:
 		score += 500
-		print("Perfect: ", closeness, "from the time. On the ", side.to_upper(), " side")
+		print("Perfect: ", snappedf(closeness, 0.001), " from the time. On the ", side.to_upper(), " side")
 	elif closeness <= closeness_threshold["Good"]:
 		score += 250
-		print("Good: ", closeness, " from the time. On the ", side.to_upper(), " side")
+		print("Good: ", snappedf(closeness, 0.001), " from the time. On the ", side.to_upper(), " side")
 	elif closeness <= closeness_threshold["OK"]:
 		score += 100
-		print("OK: ", closeness, " from the time. On the ", side.to_upper(), " side")
+		print("OK: ", snappedf(closeness, 0.001), " from the time. On the ", side.to_upper(), " side")
 
 # TODO: Have a node that will move around the gear at a constant speed
 # 	Change colors (red to gold) when it reaches a certain spot
-#
+#	Radius for right gear: ~200
+#	Radius for left gear: ~100
+
+# TODO: Maybe make it where they can't hit the hammer multiple times per beat

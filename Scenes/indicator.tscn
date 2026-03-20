@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dv24j4uueoo2e"]
+
+[ext_resource type="Script" uid="uid://1lnb7i7edqs6" path="res://Scripts/indicator.gd" id="1_8ajkf"]
+[ext_resource type="Texture2D" uid="uid://d1r1p5o02og1s" path="res://Assets/sprites/hitmark.png" id="2_s5agk"]
+
+[node name="Indicator" type="Node2D" unique_id=501781246]
+script = ExtResource("1_8ajkf")
+
+[node name="rg_center" type="Node2D" parent="." unique_id=214051701]
+position = Vector2(100, 0)
+scale = Vector2(1, 0.99999994)
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1369998580]
+scale = Vector2(0.6304348, 0.6666667)
+texture = ExtResource("2_s5agk")
