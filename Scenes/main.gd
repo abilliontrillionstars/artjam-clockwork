@@ -6,6 +6,9 @@ var BEAT = -1
 var elapsed = 0.0
 var last_beat = -1
 
+var song_position: float = -1.0
+
+# Map of when to hit which key
 var track_actions: Dictionary[int, String] = {
 	16 : "left",
 	17 : "left",
@@ -24,6 +27,11 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	elapsed += delta
+	
+	var seconds_per_beat = 60.0 / BPM
+	var time_since_beat = elapsed - last_beat
+	song_position = BEAT + (time_since_beat / seconds_per_beat)
+	
 	handle_input()
 
 func _on_beat():
@@ -47,7 +55,9 @@ func handle_input():
 		$HammerSounds.pitch_scale = 0.8 + randf()/20
 		$HammerSounds.play(0.28)
 		print("left: ", elapsed - last_beat + BEAT)
+		print("Song Position (in beats): ", song_position)
 	if Input.is_action_just_pressed("Right Hammer"):
 		$HammerSounds.pitch_scale = 1.2 + randf()/20
 		$HammerSounds.play(0.28)
 		print("right: ", elapsed - last_beat + BEAT)
+		print("Song Position (in beats): ", song_position)
