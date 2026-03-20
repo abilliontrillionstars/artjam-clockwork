@@ -8,6 +8,7 @@ var last_beat = -1
 var score: int = 0
 
 var song_position: float = 0.0
+var hit_notes = [] # notes that have already been hit
 
 # Map of when to hit which key
 var track_actions: Dictionary[int, String] = {
@@ -28,16 +29,16 @@ var track_actions: Dictionary[int, String] = {
 
 # Dictionary mapping closeness thresholds
 var closeness_threshold: Dictionary[String, float] = {	
-	"OK": 0.49, 
+	"Perfect": 0.15, 
 	"Good": 0.25,
-	"Perfect": 0.15
+	"OK": 0.35
 }
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	timer.start(1.0/(BPM/60.0))
 	timer.timeout.connect(_on_beat)
-	
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	elapsed += delta
@@ -66,6 +67,7 @@ func _on_beat():
 		$MusicPlayer.play()
 		# track looping
 		if BEAT == 32: BEAT = 0
+<<<<<<< Updated upstream
 	if track_actions.get(BEAT) == "swap":
 		if $backdropIndoor.visible:
 			$backdropTower.visible = true
@@ -74,44 +76,76 @@ func _on_beat():
 			$backdropTower.visible = false
 			$backdropIndoor.visible = true
 
+=======
+		
+>>>>>>> Stashed changes
 func handle_input():
 	if Input.is_action_just_pressed("Left Hammer"):
 		$HammerSounds.pitch_scale = 0.8 + randf()/20
 		$HammerSounds.play(0.28)
 		print("Song Position (in beats): ", song_position)
-		if round(song_position) in track_actions.keys():
-			var closeness = abs(song_position - round(song_position))
-			check_hit(closeness, "left")
+		check_hit("left")
 			
 	if Input.is_action_just_pressed("Right Hammer"):
 		$HammerSounds.pitch_scale = 1.2 + randf()/20
 		$HammerSounds.play(0.28)
 		print("Song Position (in beats): ", song_position)
-		if round(song_position) in track_actions.keys():
-			var closeness = abs(song_position - round(song_position))
-			check_hit(closeness, "right")
+		check_hit("right")
 			
 # Calculate how close player is to the beat
-func check_hit(closeness, side):
-		# Round to closest whole number beat
-			# Check which threshold it is between
-			# Logic:
-				# 	If less than OK, but not less than Good, then it is OK
-				#	If less than Good, but not less than Perfect, then it is Good
-				#	If less than Perfect, then Perfect
-				
-			# TODO: What if they miss? More than 0.49 seconds but then it would go to next, potential bug? 
-			# Maybe track the most recent one they needed to hit, if that one is not hit, don't check it as round(song_position)???
-			# Red forman
-			if closeness <= closeness_threshold["OK"] && not closeness <= closeness_threshold["Good"]:
-				score += 100
-				print("OK: ", closeness, " from the time. On the ", side.to_upper(), " side")
-				print(score)
-			elif closeness <= closeness_threshold["Good"] && not closeness <= closeness_threshold["Perfect"]:
-				score += 250
-				print("Good: ", closeness, " from the time. On the ", side.to_upper(), " side")
-				print(score)
-			elif closeness <= closeness_threshold["Perfect"]:
-				score += 500
-				print("Perfect: ", closeness, "from the time. On the ", side.to_upper(), " side")
-				print(score)
+func check_hit(side):
+	var current_beat = round(song_position)
+	var prev_beat = current_beat - 1
+	var next_beat = current_beat + 1
+	
+	var hit = false
+	
+	# Check current beat
+	if current_beat in track_actions and track_actions[current_beat] == side:
+		if current_beat in hit_notes:
+			return
+		var closeness = abs(song_position - current_beat)
+		if closeness <= closeness_threshold["OK"]:
+			score_hit(closeness, side, current_beat)
+			hit = true
+			
+	# If late
+	if not hit and prev_beat in track_actions and track_actions[prev_beat] == side:
+		if prev_beat in hit_notes:
+			return
+		var closeness = abs(song_position - prev_beat)
+		if closeness <= closeness_threshold["OK"]:
+			score_hit(closeness, side, prev_beat)
+			hit = true
+			
+	# If early
+	if not hit and next_beat in track_actions and track_actions[next_beat] == side:
+		if next_beat in hit_notes:
+			return
+		var closeness = abs(song_position - next_beat)
+		if closeness <= closeness_threshold["OK"]:
+			score_hit(closeness, side, next_beat)
+			hit = true
+	
+	# No note nearby
+	if not hit:
+		score -= 50
+		print("Score: ", score)
+		
+# Apply scores based on hit closeness	
+func score_hit(closeness, side, beat_hit):
+	hit_notes.append(beat_hit)
+	
+	if closeness <= closeness_threshold["Perfect"]:
+		score += 500
+		print("Perfect: ", closeness, "from the time. On the ", side.to_upper(), " side")
+	elif closeness <= closeness_threshold["Good"]:
+		score += 250
+		print("Good: ", closeness, " from the time. On the ", side.to_upper(), " side")
+	elif closeness <= closeness_threshold["OK"]:
+		score += 100
+		print("OK: ", closeness, " from the time. On the ", side.to_upper(), " side")
+
+# TODO: Have a node that will move around the gear at a constant speed
+# 	Change colors (red to gold) when it reaches a certain spot
+#
