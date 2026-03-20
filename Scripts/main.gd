@@ -77,7 +77,14 @@ func _on_beat():
 		else:
 			$backdropTower.visible = false
 			$backdropIndoor.visible = true
-	
+	var peek = track_actions.get(BEAT+1)
+	if peek == "left":
+		# make the left indicator emit one particle
+		$backdropIndoor/indicatorLeft.emitting = true
+	elif peek == "right":
+		# ditto with the right emitter
+		$backdropIndoor/indicatorRight.emitting = true
+
 func handle_input():
 	if Input.is_action_just_pressed("Left Hammer"):
 		$HammerSounds.pitch_scale = 0.8 + randf()/20

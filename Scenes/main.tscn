@@ -1,60 +1,80 @@
-[gd_scene format=3 uid="uid://d3akf5ww3s61r"]
+[gd_scene load_steps=10 format=3 uid="uid://d3akf5ww3s61r"]
 
 [ext_resource type="Script" uid="uid://cm7flu224p5em" path="res://Scripts/main.gd" id="1_jjgbg"]
-[ext_resource type="Texture2D" uid="uid://dns8e7dauy80t" path="res://Assets/sprites/4-gear.png" id="2_kry3j"]
-[ext_resource type="Texture2D" uid="uid://b6u1dn4nhddbe" path="res://Assets/sketches/indoor-bg.png" id="3_6bp64"]
-[ext_resource type="AudioStream" uid="uid://4vnycb07hyy2" path="res://Assets/music/start-loop-placeholder.wav" id="3_jjvhh"]
-[ext_resource type="AudioStream" uid="uid://ufid7k41nege" path="res://Assets/sounds/swing-small.wav" id="3_kry3j"]
-[ext_resource type="Texture2D" uid="uid://b17626qom45nt" path="res://Assets/sketches/8-spur.png" id="4_21xkr"]
-[ext_resource type="Texture2D" uid="uid://dkkh3308lx61h" path="res://Assets/sprites/tower-mockup.png" id="5_kry3j"]
+[ext_resource type="Texture2D" uid="uid://bfbwkfojr5pcn" path="res://Assets/sprites/4-gear.png" id="2_kry3j"]
+[ext_resource type="Texture2D" uid="uid://brjvh1sxenpkn" path="res://Assets/sketches/indoor-bg.png" id="3_6bp64"]
+[ext_resource type="AudioStream" uid="uid://b6jvqaymoub72" path="res://Assets/music/start-loop-placeholder.wav" id="3_jjvhh"]
+[ext_resource type="AudioStream" uid="uid://cvyf4q562k5r3" path="res://Assets/sounds/swing-small.wav" id="3_kry3j"]
+[ext_resource type="Texture2D" uid="uid://6hct3bp6xx4y" path="res://Assets/sketches/8-spur.png" id="4_21xkr"]
+[ext_resource type="Texture2D" uid="uid://clj4in2gbg54q" path="res://Assets/sprites/tower-mockup.png" id="5_kry3j"]
+[ext_resource type="Texture2D" uid="uid://dwmqcc7tqkk86" path="res://Assets/sprites/hitmark.png" id="6_ynf5e"]
 [ext_resource type="PackedScene" uid="uid://dv24j4uueoo2e" path="res://Scenes/indicator.tscn" id="8_344ge"]
 
-[node name="main" type="Node2D" unique_id=2051968484]
+[node name="main" type="Node2D"]
 script = ExtResource("1_jjgbg")
 
-[node name="backdropTower" type="Sprite2D" parent="." unique_id=1933957411]
+[node name="backdropTower" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(576, 324)
 texture = ExtResource("5_kry3j")
 
-[node name="backdropIndoor" type="Sprite2D" parent="." unique_id=703746452]
+[node name="backdropIndoor" type="Sprite2D" parent="."]
 position = Vector2(576, 324)
 texture = ExtResource("3_6bp64")
 
-[node name="gear4" type="Sprite2D" parent="backdropIndoor" unique_id=1298726844]
+[node name="gear4" type="Sprite2D" parent="backdropIndoor"]
 position = Vector2(-430, 169)
 texture = ExtResource("2_kry3j")
 
-[node name="gear4_2" type="Sprite2D" parent="backdropIndoor" unique_id=1161104196]
+[node name="gear4_2" type="Sprite2D" parent="backdropIndoor"]
 position = Vector2(-260, -6)
 rotation = 0.7853982
 texture = ExtResource("2_kry3j")
 
-[node name="spur8" type="Sprite2D" parent="backdropIndoor" unique_id=793438072]
+[node name="spur8" type="Sprite2D" parent="backdropIndoor"]
 position = Vector2(130.00003, -109)
 rotation = 0.7853982
 scale = Vector2(1.5327973, 1.7019266)
 texture = ExtResource("4_21xkr")
 
-[node name="spur8_2" type="Sprite2D" parent="backdropIndoor" unique_id=781455524]
+[node name="spur8_2" type="Sprite2D" parent="backdropIndoor"]
 position = Vector2(370, 234.99997)
 scale = Vector2(1.5327973, 1.7019266)
 texture = ExtResource("4_21xkr")
 
-[node name="Timer" type="Timer" parent="." unique_id=1143858281]
+[node name="indicatorLeft" type="CPUParticles2D" parent="backdropIndoor"]
+position = Vector2(-464, -74)
+emitting = false
+texture = ExtResource("6_ynf5e")
+one_shot = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1559191586]
+[node name="indicatorRight" type="CPUParticles2D" parent="backdropIndoor"]
+position = Vector2(-464, -74)
+emitting = false
+amount = 1
+texture = ExtResource("6_ynf5e")
+one_shot = true
+direction = Vector2(1, 1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_kry3j")
 pitch_scale = 4.0
 
-[node name="HammerSounds" type="AudioStreamPlayer" parent="." unique_id=2074130741]
+[node name="HammerSounds" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_kry3j")
 pitch_scale = 4.0
 max_polyphony = 4
 
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1739233743]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_jjvhh")
 volume_db = -7.5
 
-[node name="Indicator" parent="." unique_id=501781246 instance=ExtResource("8_344ge")]
+[node name="Indicator" parent="." instance=ExtResource("8_344ge")]
+visible = false
 position = Vector2(511, 211)
