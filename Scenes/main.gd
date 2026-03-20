@@ -6,7 +6,7 @@ var BEAT = -1
 var elapsed = 0.0
 var last_beat = -1
 
-var song_position: float = -1.0
+var song_position: float = 0.0
 
 # Map of when to hit which key
 var track_actions: Dictionary[int, String] = {
@@ -54,10 +54,8 @@ func handle_input():
 	if Input.is_action_just_pressed("Left Hammer"):
 		$HammerSounds.pitch_scale = 0.8 + randf()/20
 		$HammerSounds.play(0.28)
-		print("left: ", elapsed - last_beat + BEAT)
 		print("Song Position (in beats): ", song_position)
 	if Input.is_action_just_pressed("Right Hammer"):
 		$HammerSounds.pitch_scale = 1.2 + randf()/20
 		$HammerSounds.play(0.28)
-		print("right: ", elapsed - last_beat + BEAT)
 		print("Song Position (in beats): ", song_position)
